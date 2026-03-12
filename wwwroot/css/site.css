@@ -1,0 +1,278 @@
+﻿.vh-80 {
+  min-height: 80vh;
+}
+.vh-60 {
+  min-height: 60vh;
+}
+.vh-70 {
+  min-height: 70vh;
+}
+.vh-40 {
+  min-height: 40vh;
+}
+.mvh-50 {
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+@page {
+  margin: 0;
+}
+
+#gantt {
+    height: 700px;
+}
+
+#tree_list {
+  max-height: 540px;
+}
+
+#tree_list .dx-treelist-rowsview td {
+  vertical-align: middle;
+}
+
+.img,
+.name {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.img {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 25px;
+  border: 1px solid lightgray;
+  background-color: #fff;
+}
+
+#tasks {
+  max-height: 540px;
+}
+
+#tasks .dx-treelist-rowsview td {
+  vertical-align: middle;
+}
+
+.img,
+.name {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.img {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 25px;
+  border: 1px solid lightgray;
+  background-color: #fff;
+}
+
+#diagram {
+    height: 725px;
+}
+
+    #diagram .template .template-name {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    #diagram .template .template-title {
+        font-style: italic;
+    }
+
+    #diagram .template .template-button {
+        cursor: pointer;
+        font-size: 8pt;
+        fill: navy;
+    }
+
+        #diagram .template .template-button:hover {
+            text-decoration: underline;
+        }
+
+.dx-popup-content {
+    padding: 0;
+}
+
+    .dx-popup-content .dx-fieldset.buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .dx-popup-content .dx-fieldset.buttons > * {
+            margin-left: 8px;
+        }
+
+.ellipsis-td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.chat-bg {
+  background-image: url(../images/chat-bg-pattern.png);
+}
+
+.ql-editor{
+  min-height:200px;
+}
+
+.thread-container img:not(.user-profile) {
+  max-width: 100%;
+  height: auto;
+}
+
+.kb-details img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/** All toolbar buttons are inside of .ql-formats */
+.ql-formats button {
+    position: relative
+}
+
+/** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
+.ql-formats button:hover:after,
+.ql-formats button:active:after,
+.ql-formats button:focus:after {
+    position: absolute;
+    background-color:black;
+    color: white;
+    padding: .5em;
+    border-radius: .5em;
+    left: -50%;
+    top: 100%;
+    z-index: 1;
+}
+
+/** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
+.ql-formats span:hover:after,
+.ql-formats span:active:after,
+.ql-formats span:focus:after {
+    position: absolute;
+    background-color:black;
+    color: white;
+    padding: .5em;
+    border-radius: .5em;
+    left: -50%;
+    top: 100%;
+    z-index: 1;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !important;
+}
+
+/** Set tooltip content for bold button **/
+.ql-bold:hover:after,
+.ql-bold:active:after,
+.ql-bold:focus:after {
+    content: 'Bold';
+}
+
+/** Set tooltip content for bold button **/
+.ql-italic:hover:after,
+.ql-italic:active:after,
+.ql-italic:focus:after {
+    content: 'Italic';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-underline:hover:after,
+.ql-underline:active:after,
+.ql-underline:focus:after {
+    content: 'Underline';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-strike:hover:after,
+.ql-strike:active:after,
+.ql-strike:focus:after {
+    content: 'Strike';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-script[value="super"]:hover:after,
+.ql-script[value="super"]:active:after,
+.ql-script[value="super"]:focus:after {
+    content: 'Superscript';
+}
+
+
+/** Set tooltip content for Italic button **/
+.ql-script[value="sub"]:hover:after,
+.ql-script[value="sub"]:active:after,
+.ql-script[value="sub"]:focus:after {
+    content: 'Subscript';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-list[value="ordered"]:hover:after,
+.ql-list[value="ordered"]:active:after,
+.ql-list[value="ordered"]:focus:after {
+    content: 'Ordered List';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-list[value="bullet"]:hover:after,
+.ql-list[value="bullet"]:active:after,
+.ql-list[value="bullet"]:focus:after {
+    content: 'Bullet List';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-indent[value="-1"]:hover:after,
+.ql-indent[value="-1"]:active:after,
+.ql-indent[value="-1"]:focus:after {
+    content: 'Minus Indent';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-indent[value="+1"]:hover:after,
+.ql-indent[value="+1"]:active:after,
+.ql-indent[value="+1"]:focus:after {
+    content: 'Add Indent';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-direction:hover:after,
+.ql-direction:active:after,
+.ql-direction:focus:after {
+    content: 'Paragraph Direction';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-image:hover:after,
+.ql-image:active:after,
+.ql-image:focus:after {
+    content: 'Attach File / Images';
+}
+
+/** Set tooltip content for Italic button **/
+.ql-align:hover:after,
+.ql-align:active:after,
+.ql-align:focus:after {
+    content: 'Text Align';
+}
+
+
+/** Set tooltip content for Italic button **/
+.ql-clean:hover:after,
+.ql-clean:active:after,
+.ql-clean:focus:after {
+    content: 'Clean Formatting';
+}
+
+/** repeat foreach button in toolbar */
+
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+}
