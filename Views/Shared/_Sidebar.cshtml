@@ -1,0 +1,271 @@
+﻿@using CentralData.Class
+@using NGCP.BaseClass
+@inject IConfiguration _configuration
+@inject clsSessionUser _sessionUser;
+@{
+    clsSFInfo sFInfo = new clsSFInfo(_configuration);
+  
+
+}
+
+<!-- ========== App Menu ========== -->
+<div class="app-menu navbar-menu">
+    <!-- LOGO -->
+    <div class="navbar-brand-box">
+        <!-- Dark Logo-->
+        <a href="" class="logo logo-dark">
+            <span class="logo-sm">
+                <img src="../images/my-logo-sm.png" alt="" height="42">
+            </span>
+            <span class="logo-lg">
+                <img src="../images/my-logo-dark-lg.png" alt="" height="27">
+            </span>
+        </a>
+        <!-- Light Logo-->
+        <a href="" class="logo logo-light">
+            <span class="logo-sm">
+                <img src="../images/my-logo-sm.png" alt="" height="42">
+            </span>
+            <span class="logo-lg">
+                <img src="../images/my-logo-light-lg.png" alt="" height="27">
+            </span>
+        </a>
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+            <i class="ri-record-circle-line"></i>
+        </button>
+    </div>
+
+    <div id="scrollbar">
+        <div class="container-fluid">
+
+            <div id="two-column-menu">
+            </div>
+
+            <ul class="navbar-nav" id="navbar-nav">
+
+                <li class="menu-title"><span data-key="t-menu">Home</span></li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="@Url.Action("Main","Home")">
+                        <i class="mdi mdi-view-dashboard"></i> <span data-key="t-widgets">Dashboard</span>
+                    </a>
+                </li>
+
+
+                <li class="menu-title"><span data-key="t-menu">Maintenance</span></li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link menu-link" href="#sideBarSample" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-application-cog-outline"></i> <span data-key="t-dashboards">App Maintenance</span>
+                    </a>
+
+                    <div class="collapse menu-dropdown" id="sideBarSample">
+                        <ul class="nav nav-sm flex-column">
+
+                            <li class="nav-item">
+
+                                <a href="#fileLibrary" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                    Library
+                                </a>
+                                <div class="collapse menu-dropdown" id="fileLibrary">
+
+                                    <ul class="nav nav-sm flex-column">
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CaseType","Library")" class="nav-link">
+                                                Case Type
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CaseLevel","Library")" class="nav-link">
+                                                Case Level
+                                            </a>
+                                        </li>
+                                       
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("CaseStatus","Library")" class="nav-link">
+                                                Case Status
+                                            </a>
+                                        </li>
+                                                                                 
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("DocumentCategory","Library")" class="nav-link">
+                                                Document Category
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("LawyerMaster","Library")" class="nav-link">
+                                                Lawyer Master
+                                            </a>
+                                        </li>
+                                            
+
+                                        @{
+                                            if (false)
+                                            {
+                                                <li class="nav-item">
+                                                    <a href="@Url.Action("OrganizationalGroup","Library")" class="nav-link">
+                                                        Organizational Group
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                          
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("OrganizationalGrouping","Library")" class="nav-link">
+                                                Organizational Grouping
+                                            </a>
+                                        </li>
+                           
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#Security" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                    Security & Access
+                                </a>
+                                <div class="collapse menu-dropdown" id="Security">
+                                    <ul class="nav nav-sm flex-column">
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("UserMaster","Security")" class="nav-link">
+                                                User Master
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("RBACGroup","Security")" class="nav-link">
+                                                RBAC Group
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("RBACGrouping","Security")" class="nav-link">
+                                                RBAC Grouping
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("SFInfo","Security")" class="nav-link">
+                                                Access Roles
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+                </li>
+
+
+                <li class="menu-title"><span data-key="t-menu">Documents</span></li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link menu-link" href="#IssuanceBar" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-file-document-outline"></i> <span data-key="t-dashboards">OGC Issuances</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="IssuanceBar">
+                        <ul class="nav nav-sm flex-column">
+
+
+                      
+                            <li class="nav-item">
+                                <a href="@Url.Action("ProceduralManual","Document")" class="nav-link">
+                                    Procedural Manual
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("DocumentIssuance","Document")" class="nav-link">
+                                    Document Issuance
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("TaxMatter","Document")" class="nav-link">
+                                    Tax Matter
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link menu-link" href="#caseBar" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-scale-balance"></i> <span data-key="t-dashboards">Cases</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="caseBar">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="@Url.Action("CaseMaster","Document")" class="nav-link">
+                                    Case Master
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("CaseDocument","Document")" class="nav-link">
+                                    Case Document
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
+            @*     <li class="nav-item">
+
+                    <a class="nav-link menu-link" href="#caseBar">
+                        <i class=""></i> <span data-key="t-widgets">Cases </span>
+                    </a>
+
+                    <div class="collapse menu-dropdown" id="caseBar">
+                        <ul class="nav nav-sm flex-column">
+
+                            <li class="nav-item">
+
+                                <a href="@Url.Action("CaseMaster","Document")" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                    Case Master
+                                </a>
+                               
+                            </li>
+
+                            <li class="nav-item">
+
+                                <a href="@Url.Action("CaseMaster","Document")" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                    Upload Case File
+                                </a>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+                </li> *@
+         
+              
+
+            </ul>
+
+        </div>
+        <!-- Sidebar -->
+    </div>
+
+    <div class="sidebar-background"></div>
+</div>
+<!-- Left Sidebar End -->
+<!-- Vertical Overlay-->
+<div class="vertical-overlay"></div>

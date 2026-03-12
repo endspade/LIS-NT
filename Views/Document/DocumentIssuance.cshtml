@@ -1,0 +1,737 @@
+﻿@using System.Data
+@{
+    Layout = "_DevExtremeLayout";
+    ViewData["Title"] = "";
+    string nonceValue = Context.Items["CspNonce"].ToString();
+}
+
+
+<div class="row pt-3">
+    <div class="col-lg-12">
+
+        <div class="card">
+
+            <div class="card-header border-0">
+                <div class="row align-items-center gy-3">
+                    <div class="col-sm">
+                        <h3 class="card-title mb-0">Document Issuance</h3>
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-1 flex-wrap">
+                            @{
+                                if (ViewData["sfInfo"].ToString().Substring(1, 1) != "0")
+                                {                          
+                                    <button type="button" class="btn btn-primary align-self-start align-items-center" id="btn-New">
+                                        <i class="ri-upload-2-line me-2"></i> Upload File
+                                    </button>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body border border-dashed border-end-0 border-start-0 mb-3">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-6">
+                            <div class="search-box">
+                                <input type="text" id="input_Search" class="form-control search" placeholder="Search something...">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-2 col-sm-6">
+                            <div>
+                                <input type="text" class="form-control flatpickr-input" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="dateFilter" placeholder="Select date" readonly="readonly">
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-2 col-sm-4">
+                            <div>
+                                <select class="form-control select2" name="category" id="category" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--end col-->
+
+                        <!--end col-->
+                        <div class="col-xxl-1 col-sm-4">
+                            <div>
+                                <button type="button" class="btn btn-info w-100 btn-filter">
+                                    <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                    Filters
+                                </button>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+
+            <div class="card-body">
+                <div class="mt-1">
+                    <div class="table-responsive table-card mb-1">
+                        <table id="dtList" class="table align-middle table-nowrap mb-0">
+                            <thead>
+                                <tr class="bg-dark-subtle text-uppercase">
+                                    <th class="text-left">Category</th>
+                                    <th class="text-left">Title</th>
+                                    <th class="text-left">Subject</th>
+                                    <th class="text-left">CourtAdmin</th>
+                                    <th class="text-left">Region</th>
+                                    <th class="text-left">Incoming No.</th>
+                                    <th class="text-left">Outgoing No.</th>
+                                    <th class="text-left">Date released</th>
+                                    <th class="text-left">Date received</th>
+                                    <th class="text-left">File name</th>
+                                    <th class="text-left">Date upload</th>
+                                    <th class="text-left">Next Hearing</th>
+                                    <th class="text-center" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="maintenaceModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Document Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="frmMaintenance" autocomplete="off">
+
+                <div class="modal-body">
+
+                    <div class="col-12">
+                        <div class="row">
+
+
+                            <div class="form-group col-sm-12 col-md-8 mb-3">
+                                <div class="col-12">
+                                    <label for="incomingNo" class="form-label">Incoming No. </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="incomingNo" id="incomingNo" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-4 mb-3">
+                                <div class="col-12">
+                                    <label for="dateReceived" class="form-label">Date Received </label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="dateReceived" id="dateReceived" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-8 mb-3">
+                                <label for="asgLawyer" class="form-label">Assigned Lawyer</label>
+                                <div class="choices">
+                                    <div class="">
+                                        <select class="form-control select2" name="asgLawyer" id="asgLawyer" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-4 mb-3">
+                                <div class="col-12">
+                                    <label for="dateAsgd" class="form-label">Date assigned to lawyer </label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="dateAsgd" id="dateAsgd" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group col-12 mb-3">
+                                <div class="col-12">
+                                    <label for="requestor" class="form-label">Requesting Party </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="requestor" id="requestor" autocomplete="off" maxlength="255" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-8 mb-3">
+                                <label for="docCategory" class="form-label">Document Type</label>
+                                <div class="choices">
+                                    <div class="">
+                                        <select class="form-control select2" name="docCategory" id="docCategory" required>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-12 mb-3">
+                                <div class="col-12">
+                                    <label for="subject" class="form-label">Subject </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="subject" id="subject" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-12 mb-3">
+                                <div class="col-12">
+                                    <label for="courtAdmin" class="form-label">Court / Admin Body </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="courtAdmin" id="courtAdmin" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-12 mb-3">
+                                <div class="col-12">
+                                    <label for="region" class="form-label">Region</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="region" id="region" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-8 mb-3">
+                                <div class="col-12">
+                                    <label for="particular" class="form-label">Title/Particular</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="particular" id="particular" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-4 mb-3">
+                                <div class="col-12">
+                                    <label for="dateReleased" class="form-label">Date Released</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="dateReleased" id="dateReleased" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-8 mb-3">
+                                <div class="col-12">
+                                    <label for="outgoingNo" class="form-label">Outgoing No.</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="outgoingNo" id="outgoingNo" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-2 mb-3">
+                                <div class="col-12">
+                                    <label for="nod" class="form-label">No. of Days</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="nod" id="nod" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-2 mb-3">
+                                <div class="col-12">
+                                    <label for="revNumber" class="form-label">Revision</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="revNumber" id="revNumber" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 form-group mb-3">
+                                <div>
+                                    <label for="formFile" class="form-label">Attachment</label>
+                                    <input class="form-control" type="file" id="formFile"  accept=".xls,.xlsx,.pdf" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-auto mb-3">
+                                <div class="">
+                                    <div class="form-check mb-2">
+                                        <label class="form-check-label" for="recordStatus">Record Status</label>
+                                        <input class="form-check-input" type="checkbox" name="recordStatus" id="recordStatus">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"> <i class="ri-close-line me-1"></i> Close</button>
+                    <button type="button" class="btn btn-success" id="btn-submit"> <i class="ri-save-line me-1"></i>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="frmPreviewModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="frame-preview">
+                        <iframe id="pdfFrame" src="" width="100%" style="min-height:100vh"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script nonce="@nonceValue">
+
+    let sfInfo = '@ViewData["sfInfo"].ToString()';
+    let dtTable;
+    let frmMaintenance = $("#maintenaceModal");
+    let frmPreview = $("#frmPreviewModal");
+    let dateFilter;
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+
+    let baseData = { action: '', id: '', docNumber: '', docGuid: '' }
+
+    $(() => {
+
+        dateFilter = flatpickr('#dateFilter', {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            defaultDate: [firstDay, lastDay]
+        })
+
+        dtTable = $('#dtList').DataTable({
+            columns: [
+                { data: 'docCatDesc' },
+                { data: 'particular' },
+                { data: 'subject' },
+                { data: 'courtAdmin' },
+                { data: 'region' },
+                { data: 'incomingNo' },
+                { data: 'outgoingNo' },
+                { data: null },
+                { data: null },
+                { data: 'fileName' },
+                { data: null },
+                { data: null },
+                { data: null }
+            ],
+            info: false,
+            scrollX: true,
+            scrollY: '50vh',
+            dom: 'tip',
+            language: tableOptions,
+            columnDefs: [
+                {
+                    targets: [7],
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let tags = moment(data.dateReleased).format('YYYY-MMM-DD');
+                        return tags;
+                    }
+                },
+                {
+                    targets: [8],
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let tags = moment(data.dateReceived).format('YYYY-MMM-DD');
+                        return tags;
+
+                    }
+                },
+                {
+                    targets: [10],
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let tags = moment(data.dateStamp).format('YYYY-MMM-DD');
+                        return tags;
+
+                    }
+                },
+                {
+                    targets: [11],
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let tags = moment(data.dateNxtHiring).format('YYYY-MMM-DD');
+                        return tags;
+
+                    }
+                },
+                {
+                    targets: [12],
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let html = `<div class="d-flex gap-3 justify-content-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-icon btn-sm dropdown material-shadow-none " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-fill align-bottom"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                    <li>
+                                                        <a class="dropdown-item viewfile-list btn-preview" href="javascript:void(0)">View</a>
+                                                    </li>
+                                                    ${sfInfo.substring(2, 3) == '1' ? `<li><a class="dropdown-item edit-list btn-update" href="javascript:void(0)" role="button">Edit</a></li>` : ``}
+                                                    <li class="dropdown-divider"></li>
+                                                    ${sfInfo.substring(2, 3) == '1' ? `<li><a class="dropdown-item remove-list btn-delete" href="javascript:void(0)" role="button">Delete</a></li>` : ``}
+                                                    <li class="dropdown-divider"></li>
+                                                    <li>
+                                                        <a class="dropdown-item viewfile-list" href="@Url.Action("Preview", "Document")?strParam=${data.docGuid}" download=${data.fileName} >Download</a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>`
+                        return html
+
+                    }
+
+                },
+
+            ]
+        })
+
+        $('#btn-New').on('click', function () {
+
+            baseData.action = 'C';
+            baseData.id = '0';
+            // frmMaintenance.find('#incomingNo').val('');
+            // frmMaintenance.find('#dateReceived').val(moment().format('YYYY-MM-DD'));
+            // frmMaintenance.find('#dateAsgd').val(moment().format('YYYY-MM-DD'));
+            // frmMaintenance.find('#requestor').val('');
+
+
+            // frmMaintenance.find('#subject').val('');
+            // frmMaintenance.find('#courtAdmin').val('');
+            // frmMaintenance.find('#region').val('');
+            // frmMaintenance.find('#particular').val('');
+            // frmMaintenance.find('#dateReleased').val(moment().add(30, 'days').format('YYYY-MM-DD'));
+            // frmMaintenance.find('#outgoingNo').val('');
+            // frmMaintenance.find('#nod').val('0');
+            // frmMaintenance.find('#revNumber').val('0');
+
+            // frmMaintenance.find('#docIn').prop('checked', true);
+            // frmMaintenance.find('#recordStatus').prop('checked', true);
+            $('#frmMaintenance')[0].reset();
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Save');
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-preview', function () {
+
+            let data = dtTable.row($(this).closest('tr')).data()
+            frmPreview.find("#pdfFrame").attr(`src`, `@Url.Action("Preview", "Document")?strParam=${data.docGuid}#toolbar=0&navpanes=0&scrollbar=0`);
+            frmPreview.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-update', function () {
+
+            let data = dtTable.row($(this).closest('tr')).data()
+
+            baseData.action = 'U';
+            baseData.id = data.id;
+            baseData.docNumber = data.docNumber;
+            baseData.docGuid = data.docGuid;
+
+            frmMaintenance.find('#incomingNo').val(data.incomingNo);
+            frmMaintenance.find('#dateReceived').val(moment(data.dateReceived).format('YYYY-MM-DD'));
+            frmMaintenance.find('#asgLawyer').select2('trigger', 'select', { data: { id: data.asgLawyer, text: data.fullName } });
+            frmMaintenance.find('#dateAsgd').val(moment(data.dateAsgd).format('YYYY-MM-DD'));
+            frmMaintenance.find('#requestor').val(data.requestor);
+            frmMaintenance.find('#docCategory').select2('trigger', 'select', { data: { id: data.docCatNumber, text: data.docCatDesc } });
+            frmMaintenance.find('#subject').val(data.subject);
+            frmMaintenance.find('#courtAdmin').val(data.courtAdmin);
+            frmMaintenance.find('#region').val(data.region);
+            frmMaintenance.find('#particular').val(data.particular);
+            frmMaintenance.find('#dateReleased').val(moment(data.dateReleased).format('YYYY-MM-DD'));
+            frmMaintenance.find('#outgoingNo').val(data.outgoingNo);
+            frmMaintenance.find('#nod').val(data.nod);
+            frmMaintenance.find('#revNumber').val(data.revNumber);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Update');
+
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-delete', function () {
+
+            let dr = dtTable.row($(this).closest('tr')).data()
+            baseData.action = 'D';
+           
+            let formdata = new FormData();
+            formdata.append("_action", baseData.action);
+            formdata.append("id", dr.id);
+            formdata.append("docGuid", dr.docGuid);
+            formdata.append("docNumber", dr.docNumber);
+            formdata.append("docIn", true);
+            formdata.append("incomingNo", dr.incomingNo);
+            formdata.append("dateReceived", dr.dateReceived);
+            formdata.append("asgLawyer", dr.asgLawyer);
+            formdata.append("dateAsgd", dr.dateAsgd);
+            formdata.append("requestor", dr.requestor);
+            formdata.append("docCategory", dr.docCategory);
+            formdata.append("subject", dr.subject);
+            formdata.append("courtAdmin", dr.courtAdmin);
+            formdata.append("region", dr.region);
+            formdata.append("particular", dr.particular);
+            formdata.append("dateReleased", dr.dateReleased);
+            formdata.append("outgoingNo", dr.outgoingNo);
+            formdata.append("nod", dr.nod);
+            formdata.append("revNumber", dr.revNumber);
+            formdata.append("recordStatus", dr.recordStatus);
+            
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    post_data(formdata);
+                }
+            });
+        })
+
+        $('#btn-submit').on('click', function () {
+
+            let text = (baseData.action == 'C' ? 'Do you want to save new entry.' : 'Do you want to save changes.');
+            let label = (baseData.action == 'C' ? 'Yes, save new entry.' : 'Yes, save changes.');
+
+            if ($('#frmMaintenance')[0].reportValidity()) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: text,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: label,
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        let formdata = new FormData();
+                        formdata.append("_action", baseData.action);
+                        formdata.append("id", baseData.id);
+                        formdata.append("docGuid", baseData.docGuid);
+                        formdata.append("docNumber", baseData.docNumber);
+                        formdata.append("docIn", true);
+                        formdata.append("incomingNo", $('#incomingNo').val());
+                        formdata.append("dateReceived", $('#dateReceived').val());
+                        formdata.append("asgLawyer", $('#asgLawyer').val());
+                        formdata.append("dateAsgd", $('#dateAsgd').val());
+                        formdata.append("requestor", $('#requestor').val());
+                        formdata.append("docCategory", $('#docCategory').val());
+                        formdata.append("subject", $('#subject').val());
+                        formdata.append("courtAdmin", $('#courtAdmin').val());
+                        formdata.append("region", $('#region').val());
+                        formdata.append("particular", $('#particular').val());
+                        formdata.append("dateReleased", $('#dateReleased').val());
+                        formdata.append("outgoingNo", $('#outgoingNo').val());
+                        formdata.append("nod", $('#nod').val());
+                        formdata.append("revNumber", $('#revNumber').val());
+                        formdata.append("recordStatus", $('#recordStatus').is(':checked'));
+                        formdata.append("file", $("#formFile").prop('files')[0]);
+
+                        post_data(formdata);
+
+                    }
+                });
+            }
+        });
+
+        // LOAD FILTER CATEGORY
+        getData("Library", "GET_DocumentCategory", {_action: 'AIS'}).done(function (data) {
+
+            let obj = null;
+
+            obj = {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.docCatDesc,
+                        id: item.docCatNumber,
+                    }
+                })
+            }
+
+            $('#category').html('').select2({ data: [{}] })
+            $('#category').select2({
+                // theme: 'bootstrap-5', /* hindi siya nagiging pantay pag naka bootstrap-5 */
+                placeholder: 'Select category',
+                allowClear: true,
+                data: obj.results
+            })
+
+        })
+
+        // LOAD ENTRY LAWYER
+        getData("Library", "GET_LawyerMaster", { _action: 'A' }).done(function (data) {
+
+            let obj = null;
+
+            obj = {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.fullName,
+                        id: item.lawyerNumber,
+                    }
+                })
+            }
+
+            $('#asgLawyer').html('').select2({ data: [{}] })
+            $('#asgLawyer').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Select lawyer',
+                allowClear: true,
+                data: obj.results
+            })
+
+        })
+
+        // LOAD ENTRY CATEGORY
+        getData("Library", "GET_DocumentCategory", { _action: 'AIS' }).done(function (data) {
+
+            let obj = null;
+
+            obj = {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.docCatDesc,
+                        id: item.docCatNumber,
+                    }
+                })
+            }
+
+            $('#docCategory').html('').select2({ data: [{}] })
+            $('#docCategory').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Select category',
+                allowClear: true,
+                data: obj.results
+            })
+
+        })
+
+
+        $('#input_Search').keyup(function () {
+            
+            dtTable.search($(this).val()).draw();
+        })
+
+        $('.btn-filter').on('click', function () {
+
+            load_data();
+        })
+
+        load_data();
+
+    });
+
+    function load_data() {
+
+        getData("Document", "GET_DocumentIssuance", {
+        
+             _action: 'A',
+             strParam:$('#category').val(),
+             intParam:0,
+             dateFr: dateFilter.selectedDates[0].toLocaleDateString(),
+             dateTo: dateFilter.selectedDates[1].toLocaleDateString()
+            
+        }).done(function (data) {
+
+            dtTable.rows().clear();
+            dtTable.rows.add(data).draw();
+
+        })
+
+    }
+
+    function post_data(data) {
+
+        postFileData("Document", "POST_DocumentIssuance", data).done(function (returnData) {
+
+            let msg = returnData[0];
+
+            if (!msg.includes("Success")) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: msg.replace("Msg: ", "")
+                });
+            }
+            else {
+
+
+                let componet = 'document';
+                let text;
+
+                if (baseData.action == 'C') {
+                    text = `New ${componet} has been added`;
+                }
+                if (baseData.action == 'U') {
+                    text = `Selected ${componet} has been updated`;
+                }
+                if (baseData.action == 'D') {
+                    text = `Selected ${componet} has been deleted`;
+                }
+
+                frmMaintenance.modal('hide');
+
+                Swal.fire({
+                    title: "Success!",
+                    text: text,
+                    icon: "success",
+                    // confirmButtonClass: "btn btn-primary w-xs mt-2",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        load_data();
+                    }
+                });
+
+
+
+            }
+
+
+
+        })
+    }
+
+</script>

@@ -1,0 +1,238 @@
+@using NGCP.BaseClass
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    string nonceValue = Context.Items["CspNonce"].ToString();
+    string requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
+
+
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>myNGCP | Legal Information System</title>
+    <link href="~/images/img/lislogo.ico" rel="shortcut icon" type="image/x-icon" />
+    @* MyNGCP Theme*@
+
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet"  />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/dropzone/dropzone.css" rel="stylesheet" />
+    <link href="~/lib/Select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/Select2/css/select2-bs5.css" rel="stylesheet" />
+    <link href="~/lib/rater-js/lib/style.css" rel="stylesheet" />
+    <link href="~/lib/@@simonwep/pickr/themes/nano.min.css" rel="stylesheet" />
+    <link href="~/lib/quill/quill.snow.css" rel="stylesheet" />
+    <link href="~/css/daterangepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+    <link href="~/css/icons.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" nonce="@nonceValue"></script>
+
+    <script src="~/lib/DataTables/js/jquery.dataTables.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/dataTables.bootstrap.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/dataTables.responsive.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/dataTables.fixedColumns.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/dataTables.buttons.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/dataTables.select.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/buttons.print.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/buttons.html5.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/DataTables/js/sorting.date-de.js" nonce="@nonceValue"></script>
+
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js" nonce="@nonceValue"></script>
+
+    <script src="~/lib/Select2/js/select2.js" nonce="@nonceValue"></script>
+
+    <script src="~/lib/moment/moment.js" nonce="@nonceValue"></script>
+
+    <script src="~/lib/simplebar/simplebar.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/node-waves/waves.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/feather-icons/feather.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/apexcharts/apexcharts.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/jsvectormap/js/jsvectormap.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/jsvectormap/maps/world-merc.js" nonce="@nonceValue"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/cleave.js/cleave.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/prismjs/prism.js" nonce="@nonceValue"></script>
+    <script src="~/lib/choices.js/public/assets/scripts/choices.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/flatpickr/flatpickr.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/apexcharts/apexcharts.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/dropzone/dropzone-min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/rater-js/index.js" nonce="@nonceValue"></script>
+    <script src="~/lib/quill/quill.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/@@simonwep/pickr/pickr.min.js" nonce="@nonceValue"></script>
+    <script src="~/lib/choices.js/public/assets/scripts/choices.min.js" nonce="@nonceValue"></script>
+
+
+    <link href="~/css/devextreme/dx-gantt.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx-diagram.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+    <script src="~/js/devextreme/dx-gantt.js"></script>
+
+    <script src="~/js/devextreme/dx-diagram.js"></script>
+    <script src="~/js/devextreme/dx.all.js" nonce="@nonceValue"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js" nonce="@nonceValue"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js" nonce="@nonceValue"></script>
+</head>
+
+<body>
+    <div id="layout-wrapper">
+        @await Html.PartialAsync("_Header")
+        @await Html.PartialAsync("_Sidebar")
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    
+                    <div class="profile-foreground position-relative mx-n4 mt-n4">
+                        <div class="profile-wid-bg">
+                            <img src="@Url.Action("home6-lg.jpg","images")" alt="" class="profile-wid-img">
+                        </div>
+                    </div>
+
+                    <!-- end row -->
+                    @RenderBody()
+
+                </div>
+                <!-- container-fluid -->
+                <div class="modal  fade" id="ChangePassModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="lblChangePassModal" aria-hidden="true">
+                    <div class="modal-dialog ">
+
+                        <form id="frmChangePass" autocomplete="off">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="lblChangePassModal">Change Password</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="col-12">
+                                        <div class="row">
+
+                                            <div class="form-group col-6 mb-3">
+                                                <div class="col">
+                                                    <label for="passWord" class="form-label">Passsword</label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="password" class="form-control" name="passWord" id="passWord" autocomplete="off" maxlength="255" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-6 mb-3">
+                                                <div class="col">
+                                                    <label for="repassWord" class="form-label">Verify passsword</label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="password" class="form-control" name="repassWord" id="repassWord" autocomplete="off" maxlength="255" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div id="" class="p-3 bg-light mb-2 rounded">
+                                        <h5 class="fs-13">Password must contain:</h5>
+                                        <p id="passlength" class="invalid pass-validate fs-12 mb-2"> Minimum <b>14 characters</b></p>
+                                        <p id="passlower" class="invalid pass-validate fs-12 mb-2"> At <b>lowercase</b> letter (a-z)</p>
+                                        <p id="passupper" class="invalid pass-validate fs-12 mb-2"> At least <b>uppercase</b> letter (A-Z)</p>
+                                        <p id="passnumber" class="invalid pass-validate fs-12 mb-2"> At least <b>number</b> (0-9)</p>
+                                        <p id="passspecial" class="invalid pass-validate fs-12 mb-2"> At least <b>special character</b></p>
+                                        <p id="passmatch" class="invalid pass-validate fs-12 mb-2"> A <b>verified (Matched)</b></p>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"> <i class="ri-close-line me-1"></i> Close</button>
+                                    <button type="button" class="btn btn-success" id="btn-submit" disabled> <i class="ri-save-line me-1"></i>Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End Page-content -->
+            <!-- FOOTER -->
+            @await Html.PartialAsync("_Footer")
+        </div>
+    </div>
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+    <!--preloader-->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" output="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="customizer-setting d-none d-md-block">
+        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
+            <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
+        </div>
+    </div>
+    @await Html.PartialAsync("_Settings")
+
+
+
+    <input id="RequestVerificationToken" type="hidden" value="@requestToken" />
+
+    <script src="~/js/app.js" asp-append-version="true" nonce="@nonceValue"></script>
+    <script src="~/js/site.js" asp-append-version="true" nonce="@nonceValue"></script>
+
+    <script nonce="@nonceValue">
+
+        let BaseURL = "@Url.Action("", "")";
+        const getData = (controller, method, data, _nonce) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `GET`,
+                headers: {
+                    RequestVerificationToken: '@requestToken'
+                },
+                data: data
+
+            })
+        }
+
+        const postData = (controller, method, data, nonce) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `POST`,
+                headers: {
+                    RequestVerificationToken: '@requestToken'
+                },
+                data: data
+            })
+        }
+
+        const postFileData = (controller, method, data, nonce) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `POST`,
+                data: data,
+                headers: {
+                    RequestVerificationToken: '@requestToken'
+                },
+                processData: false,
+                contentType: false
+            })
+        }
+    </script>
+    <!-- end main content-->
+</body>
+</html>

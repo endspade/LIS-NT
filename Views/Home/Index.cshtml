@@ -1,0 +1,264 @@
+﻿@{
+    Layout = "_DevExtremeLayout";
+    ViewData["Title"] = "Home Page";
+}
+<main>
+    <div class="card px-3">
+        <div class="row justify-content-center pt-4">
+            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-xs-12 ">
+                <div class="flex-grow-1 mb-4 pt-2">
+                    <h5 class="modal-title" id="exampleModalLabel">Sample Entry Forms</h5>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="contactNumber" class="form-label">Disabled Text Field</label>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8">
+                        <input type="text" class="form-control" id="textName" placeholder="enter Text Name..."
+                               value="Disabled Text Field" disabled>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="contactNumber" class="form-label">Active Text Field</label>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8">
+                        <input type="text" class="form-control" id="textName" placeholder="enter Text Name..."
+                               value="Disabled Text Field">
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="contactNumber" class="form-label">Text Area (five rows)</label>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 col-md-8">
+                        <textarea class="form-control" id="textArea" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Select Date Field</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <input type="date" class="form-control" id="dateField">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Select Date Range</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <input type="date" class="form-control" id="dateFlatPickr2" placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Select Date FlatPicker</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <input type="date" class="form-control" id="dateFlatPickr" placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Dropdown Select</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <select class="form-select" aria-label="ERC Status">
+                            <option selected>select Status...</option>
+                            <option value="1">Active</option>
+                            <option value="2">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Dropdown Select multiple</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <select id="multipleSelect2" class="js-example-basic-multiple" multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Dropdown Select2</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <select class="js-example-basic-single" aria-label="ERC Status">
+                            <option selected>select Status...</option>
+                            <option value="1">Active</option>
+                            <option value="2">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Checkbox</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <!-- Base Example -->
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                            <label class="form-check-label" for="formCheck1">
+                                Default checkbox
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="formCheck2" checked="">
+                            <label class="form-check-label" for="formCheck2">
+                                Checked checkbox
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Radio Buttons</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <!-- Base Radios -->
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                   checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Default checked radio
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-3">
+                        <label for="timeInput" class="form-label">Switches</label>
+                    </div>
+                    <div class="col-xl-5 col-lg-8 col-md-8">
+                        <!-- Base Switchs -->
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">
+                                Default switch checkbox
+                                input
+                            </label>
+                        </div>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                   checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">
+                                Checked switch checkbox
+                                input
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-stripped" id="tbl_test">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td>Test1</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td>Test2</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td>Test3</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td>Test4</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                        <tr>
+                            <td>Test5</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    let tbl_main, tbl_dtl;
+    $(() => {
+
+        $('#dateFlatPickr').flatpickr({
+            allowInput: true,
+        })
+        $('#dateFlatPickr2').flatpickr({
+            allowInput: true,
+            mode: "range"
+        })
+        let mockData_users = [
+            {
+                id: "1",
+                text: "Template1",
+                sort: 2,
+            },
+            {
+                id: "2",
+                text: "Template2",
+                sort: 4,
+            },
+            {
+                id: "3",
+                text: "Template3",
+                sort: 1,
+            },
+            {
+                id: "4",
+                text: "Template4",
+                sort: 3,
+            }
+        ]
+        $('#multipleSelect2').select2({
+            data: mockData_users,
+        });
+        $('#multipleSelect2').val(mockData_users.map((i) => i.id)).trigger('change')
+        let tbl_test;
+        tbl_test = new DataTable('#tbl_test')
+        $('.js-example-basic-single').select2({
+            minimumInputLength: 2,
+        })
+
+    });
+</script>

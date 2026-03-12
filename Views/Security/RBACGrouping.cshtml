@@ -1,0 +1,405 @@
+﻿@using System.Data
+@{
+    Layout = "_DevExtremeLayout";
+    ViewData["Title"] = "";
+    string nonceValue = Context.Items["CspNonce"].ToString();
+}
+
+<div class="row my-3">
+    <div class="col">
+
+        <div class="h-100 pt-4">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-2">
+
+                            <div class="row mb-2 pt-4 mb-4">
+
+                                <div class="col">
+                                    <h4 class="float-start my-2 mb-2">RBAC Grouping</h4>
+                                </div>
+
+                                <div class="col-3 d-flex justify-content-end">
+                                    @{
+                                        if (ViewData["sfInfo"].ToString().Substring(1, 1) != "0")
+                                        {        
+                                            <button type="button" id="btn-New" class="btn btn-info  align-self-start align-items-center">
+                                                <i class="ri-add-fill"></i> New
+                                            </button>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="form-group- mb-3">
+                                        <div class="col-12">
+                                            <label for="RBACCode" class="form-label">RBAC Group</label>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-select border border-primary" id="RBACCode">
+                                                @foreach (DataRow dataRow in ((DataTable)ViewData["RBACGroup"]).Rows)
+                                                {
+                                                    <option value="@dataRow["RBACCode"].ToString()"> @dataRow["RBACDesc"].ToString().ToUpper() </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="row horizantalScrollContainer">
+                                    <div class="col-12">
+                                        <table id="dtList" class="table table-striped align-middle w-100">
+                                            <thead>
+                                                <tr class="bg-dark-subtle">
+                                                    <th class="text-left"> Group</th>
+                                                    <th class="text-left"> Name</th>
+                                                    <th class="text-left"> Valid From</th>
+                                                    <th class="text-left"> Valid To</th>
+                                                    <th class="text-left" width="10%"> Record Status</th>
+                                                    <th class="text-center" width="20%"> Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Maintenace -->
+<div class="modal  fade" id="maintenaceModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+
+        <form id="frmMaintenance" autocomplete="off">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">RBAC Grouping</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group- mb-3">
+                        <div class="col-12">
+                            <label for="empNumber" class="form-label">User</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select" id="empNumber">
+                                @foreach (DataRow dataRow in ((DataTable)ViewData["USERList"]).Rows)
+                                {
+                                    <option value="@dataRow["UserNumber"].ToString()"> @dataRow["EmployeeName"].ToString().ToUpper() </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+
+                        <div class="form-group col-sm-12 col-md-6 mb-3">
+                            <div class="col-3">
+                                <label for="DateFr" class="form-label">From</label>
+                            </div>
+                            <div class="col">
+                                <input type="date" class="form-control" name="DateFr" id="DateFr" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-6 mb-3">
+                            <div class="col-3">
+                                <label for="DateTo" class="form-label">To</label>
+                            </div>
+                            <div class="col">
+                                <input type="date" class="form-control" name="DateTo" id="DateTo" min="@DateTime.Now.AddYears(1).ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="col">
+                            <div class="form-check mb-2">
+                                <label class="form-check-label" for="recordStatus">Record Status</label>
+                                <input class="form-check-input" type="checkbox" name="recordStatus" id="recordStatus" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"> <i class="ri-close-line me-1"></i> Close</button>
+                    <button type="button" class="btn btn-success" id="btn-submit"> <i class="ri-save-line me-1"></i>Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script nonce="@nonceValue">
+
+    let sfInfo = '@ViewData["sfInfo"].ToString()';
+    let dtTable;
+    let frmMaintenance = $("#maintenaceModal");
+    let baseData = { action: '', id: '' }
+
+    $(() => {
+
+        $('#RBACCode').select2();
+        $('#empNumber').select2()
+
+        $('#RBACCode').on('change', function () {
+
+            load_data();
+        })
+
+        dtTable = $('#dtList').DataTable({
+            columns: [
+                { data: "RBACDesc" },
+                { data: "EmployeeName" },
+                { data: "DateFr" },
+                { data: "DateTo" },
+                { data: null },
+                { data: null }
+            ],
+            paging: true,
+            ordering: false,
+            info: true,
+            scrollX: false,
+            scrollY: '40vh',
+            columnDefs: [
+                {
+                    targets: [2],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        return moment(data).format('YYYY-MMM-DD') != '1900-Jan-01' ? moment(data).format('YYYY-MMM-DD') : '';
+                    }
+
+                },
+                {
+                    targets: [3],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        return moment(data).format('YYYY-MMM-DD') != '1900-Jan-01' ? moment(data).format('YYYY-MMM-DD') : '';
+                    }
+
+                },
+                {
+                    targets: [4],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let prop = {
+                            badge: data.recordStatus ? 'bg-info' : 'bg-danger',
+                            text: data.recordStatus ? 'Active' : 'Disabled'
+                        }
+                        return `<span class="fs-10 badge text-white ${prop.badge} rounded-pill">${prop.text}</span>`;
+                    }
+
+                },
+                {
+                    targets: [5],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+
+                        let html = `<div>
+
+                                        ${sfInfo.substring(3,4) == '1' ? `<button class="btn btn-sm btn-danger btn-icon waves-effect waves-light btn-delete" title="Delete">
+                                                                                <i class="ri-delete-bin-2-fill"></i>
+                                                                            </button>` : ``}
+
+                                    </div>`;
+
+                        return html;
+
+                    }
+                }
+            ]
+        })
+
+    
+
+        $('#btn-New').on('click', function () {
+            baseData.action = 'C';
+            baseData.id = '0';
+            frmMaintenance.find('#RBACCode').val('');
+            frmMaintenance.find('#RBACDesc').val('');
+            frmMaintenance.find('#recordStatus').prop('checked', true);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Save');
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-update', function () {
+
+            let data = dtTable.row($(this).closest('tr')).data()
+
+            baseData.action = 'U';
+            baseData.id = data.id;
+            frmMaintenance.find('#RBACCode').val(data.RBACCode);
+            frmMaintenance.find('#RBACDesc').val(data.RBACDesc);
+            frmMaintenance.find('#DateFr').val(moment(data.dateFr).format('YYYY-MM-DD'));
+            frmMaintenance.find('#DateTo').val(moment(data.dateTo).format('YYYY-MM-DD'));
+            frmMaintenance.find('#recordStatus').prop('checked', data.recordStatus);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Update');
+
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-delete', function () {
+
+            let dr = dtTable.row($(this).closest('tr')).data()
+            baseData.action = 'D';
+            let data = {
+
+                _action: baseData.action,
+                id: dr.id,
+                RBACCode: dr.rbacCode,
+                EmpNumber: dr.empNumber,
+                DateFr: dr.DateFr,
+                DateTo: dr.DateTo,
+                recordStatus: dr.recordStatus
+            }
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    post_data(data);
+                }
+            });
+
+        })
+
+        $('#btn-submit').on('click', function () {
+
+            let text = (baseData.action == 'C' ? 'Do you want to save new entry.' : 'Do you want to save changes.');
+            let label = (baseData.action == 'C' ? 'Yes, save new entry.' : 'Yes, save changes.');
+
+            if ($('#frmMaintenance')[0].reportValidity()) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: text,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: label,
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        data = {
+                            _action: baseData.action,
+                            id: baseData.id,
+                            RBACCode: $('#RBACCode').val(),
+                            EmpNumber: $('#empNumber').val(),
+                            DateFr: $('#DateFr').val(),
+                            DateTo: $('#DateTo').val(),
+                            recordStatus: $('#recordStatus').is(':checked')
+                        }
+
+                        post_data(data);
+
+                    }
+                });
+            }
+        });
+
+
+        load_data();
+    });
+
+
+
+    function load_data() {
+
+
+        getData("Security", "GET_RBACGrouping", {
+            _action: 'R', 
+            strParam: $('#RBACCode').val() 
+        }).done(function (data) {
+
+            dtTable.rows().clear();
+            dtTable.rows.add(data).draw();
+
+        })
+
+    }
+
+    function post_data(data) {
+
+        postData("Security", "POST_RBACGrouping", data).done(function (returnData) {
+
+            let msg = returnData[0];
+
+            if (!msg.includes("Success")) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: msg.replace("Msg: ", "")
+                });
+            }
+            else {
+
+                let componet = 'group';
+                let text;
+
+                if (baseData.action == 'C') {
+                    text = `New ${componet} has been added`;
+                }
+                if (baseData.action == 'U') {
+                    text = `Selected ${componet} has been updated`;
+                }
+                if (baseData.action == 'D') {
+                    text = `Selected ${componet} has been deleted`;
+                }
+
+                frmMaintenance.modal('hide');
+
+                Swal.fire({
+                    title: "Success!",
+                    text: text,
+                    icon: "success",
+                    // confirmButtonClass: "btn btn-primary w-xs mt-2",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        load_data();
+                    }
+                });
+
+            }
+
+        })
+    }
+
+
+</script>

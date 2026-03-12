@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_DevExtremeLayout";
+    // ViewData["Title"] = "Home Page";
+}
+<div class="pt-5 h-100">
+    <div class="row justify-content-center h-100">
+        <div class="col-sm-12 h-100">
+            <div class="card py-5 h-100">
+                <div class="d-flex h-100">
+                    <div class="m-auto justify-content-center">
+                        <div class="w-100 d-flex">
+                            <img class="img-fluid mx-auto" width="150px" alt="..." src="~/images/Linoy_Concern.png" />
+                        </div>
+                        <br />
+                        @* <h1 class="w-100 text-center"> Hi I'm @ViewData["userName"] </h1> *@
+                        <h3 class="w-100 text-center"> @ViewData["responseMessage"]</h3>
+                        @*<div class="w-100 d-flex">
+                        <a class="btn btn-primary mx-auto" href="@Url.Action("Index","Home")"> Go to home </a>
+                        </div> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,564 @@
+﻿@using System.Data
+@{
+    Layout = "_DevExtremeLayout";
+    ViewData["Title"] = "";
+    string nonceValue = Context.Items["CspNonce"].ToString();
+}
+
+<div class="row pt-3">
+    <div class="col-lg-12">
+        <div class="card" id="orderList">
+
+@*             <div class="card-header border-0">
+                <div class="row align-items-center gy-3">
+                    <div class="col-sm">
+                        <h5 class="card-title mb-0">Case Master</h5>
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-1 flex-wrap">
+                            <button type="button" class="btn btn-primary align-self-start align-items-center" id="btn-New">
+                                <i class="ri-add-line align-bottom me-1"></i> Add Case
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div> *@
+
+
+            <div class="card-header border-0">
+                <div class="row align-items-center gy-3">
+                    <div class="col-sm">
+                        <h3 class="card-title mb-0">Case Master</h3>
+                    </div>
+                    <div class="col-sm-auto">
+                        <div class="d-flex gap-1 flex-wrap">
+                            @{
+                                if (ViewData["sfInfo"].ToString().Substring(1, 1) != "0")
+                                {
+                                    <button type="button" class="btn btn-primary align-self-start align-items-center" id="btn-New" >
+                                        <i class="ri-add-line align-bottom me-1"></i> Add Case
+                                    </button>                           
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card-body border border-dashed border-end-0 border-start-0 mb-3">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-xxl-5 col-sm-6">
+                            <div class="search-box">
+                                <input type="text" id="input_Search" class="form-control search" placeholder="Search something...">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-2 col-sm-6">
+                            <div>
+                                <input type="text" class="form-control flatpickr-input" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="dateFilter" placeholder="Select date" readonly="readonly">
+                            </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-xxl-2 col-sm-4">
+                            <div>
+                                <select class="form-control select2" name="fcaseType" id="fcaseType" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--end col-->
+                        <!--end col-->
+                        <div class="col-xxl-1 col-sm-4">
+                            <div>
+                                <button type="button" class="btn btn-info w-100 btn-filter">
+                                    <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                    Filters
+                                </button>
+                            </div>
+                        </div>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                </form>
+            </div>
+
+            <div class="card-body">
+                <div class="mt-1">
+                    <div class="table-responsive table-card mb-1">
+                        <table id="dtList" class="table align-middle table-nowrap mb-0 w-100">
+                            <thead>
+                                <tr class="bg-dark-subtle text-uppercase">
+                                    <th class="sort">Type</th>
+                                    <th class="sort">Case Number</th>
+                                    <th class="sort">Title</th>
+                                    <th class="sort">Nature</th>
+                                    <th class="sort">Status</th>
+                                    <th class="sort">Level</th>
+                                    <th class="sort">Venue</th>
+                                    <th class="sort">Amount</th>
+                                    <th class="text-center" scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="maintenaceModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Case Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="frmMaintenance" autocomplete="off">
+                <div class="modal-body">
+
+                    <div class="col-12">
+                        <div class="row">
+
+                            <div class="form-group col-sm-12 col-md-4 mb-3">
+                                <div class="col-12">
+                                    <label for="caseNumber" class="form-label">Case Number </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="caseNumber" id="caseNumber" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-8 mb-3">
+                                <div class="col-12">
+                                    <label for="caseTitle" class="form-label">Title </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="caseTitle" id="caseTitle" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 mb-3">
+                                <div class="col-12">
+                                    <label for="caseDesc" class="form-label">Brief Description </label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="caseDesc" id="caseDesc" autocomplete="off" maxlength="50"  required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label for="caseType" class="form-label">Type</label>
+                                <div class="choices">
+                                    <div class="">
+                                        <select class="form-control select2" name="caseType" id="caseType" required>
+                                            <option disabled selected> Select case type</option>
+                                            @foreach (DataRow dataRow in ((DataTable)ViewData["caseType"]).Rows)
+                                            {
+                                                <option value="@dataRow["CASETYPENUMBER"].ToString()"> @dataRow["CASETYPEDESC"].ToString().ToUpper() </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label for="caseLevel" class="form-label">Level</label>
+                                <div class="choices">
+                                    <div class="">
+                                        <select class="form-control select2" name="caseLevel" id="caseLevel" required>
+                                            <option disabled selected> Select case level</option>
+                                            @foreach (DataRow dataRow in ((DataTable)ViewData["caseLevel"]).Rows)
+                                            {
+                                                <option value="@dataRow["CASELEVELNUMBER"].ToString()"> @dataRow["CASELEVELDESC"].ToString().ToUpper() </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label for="caseStatus" class="form-label">Status</label>
+                                <div class="choices">
+                                    <div class="">
+                                        <select class="form-control select2" name="caseStatus" id="caseStatus" required>
+                                            <option disabled selected> Select case status</option>
+                                            @foreach (DataRow dataRow in ((DataTable)ViewData["caseStatus"]).Rows)
+                                            {
+                                                <option value="@dataRow["CASESTATUSNUMBER"].ToString()"> @dataRow["CASESTATUSDESC"].ToString().ToUpper() </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 form-group mb-3">
+                                <div class="col-3">
+                                    <label for="caseNature" class="form-label">Nature</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="caseNature" id="caseNature" autocomplete="off" maxlength="255"  required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 form-group mb-3">
+                                <div class="col-3">
+                                    <label for="venue" class="form-label">Venue</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="venue" id="venue" autocomplete="off" maxlength="255" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 form-group mb-3">
+                                <div class="col-3">
+                                    <label for="amount" class="form-label">Amount</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control text-end" name="amount" id="amount" value="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <div class="col">
+                                    <div class="form-check mb-2">
+                                        <label class="form-check-label" for="recordStatus">Record Status</label>
+                                        <input class="form-check-input" type="checkbox" name="recordStatus" id="recordStatus" value="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"> <i class="ri-close-line me-1"></i> Close</button>
+                    <button type="button" class="btn btn-success" id="btn-submit"> <i class="ri-save-line me-1"></i>Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script nonce="@nonceValue">
+
+    let sfInfo = '@ViewData["sfInfo"].ToString()';
+    let dtTable;
+    let frmMaintenance = $("#maintenaceModal");
+    let frmPreview = $("#frmPreviewModal");
+    let baseData = { action: '', id: '', docNumber: '' };
+
+
+    let dateFilter;
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+
+    $(() => {
+
+        dateFilter = flatpickr('#dateFilter', {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            defaultDate: [firstDay, lastDay]
+        })
+
+        dtTable = $('#dtList').DataTable({
+            columns: [
+                { data: "caseTypeDesc" },
+                { data: "caseNumber" },
+                { data: "caseTitle" },
+                { data: "caseNature" },
+                { data: "caseStatusDesc" },
+                { data: "caseLevelDesc" },
+                { data: "venue" },
+                { data: "amount" },
+                { data: null }
+            ],
+            paging: true,
+            ordering: false,
+            info: true,
+            scrollX: false,
+            scrollY: '50vh',
+            searching: false,
+            columnDefs: [
+                {
+                    targets: [8],
+                    with: '10%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+
+                        let html = `<div class="d-flex gap-3 justify-content-center">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light btn-icon btn-sm dropdown material-shadow-none " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-fill align-bottom"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                    ${sfInfo.substring(2, 3) == '1' ? `<li><a class="dropdown-item edit-list btn-update" href="javascript:void(0)" role="button">Edit</a></li>` : ``}
+                                                    <li class="dropdown-divider"></li>
+                                                    ${sfInfo.substring(3, 4) == '1' ? `<li><a class="dropdown-item remove-list btn-delete" href="javascript:void(0)" role="button">Delete</a></li>` : ``}
+                                                    <li class="dropdown-divider"></li>
+                                                    ${sfInfo.substring(4, 5) == '1' ? `<li><a class="dropdown-item remove-list" href="@Url.Action("ZipDownload","Document")?strParam=${data.docNumber}" download role="button">Download</a></li>` : ``}
+                                                </ul>
+                                            </div>
+                                        </div>`
+
+
+                        return html
+
+                    }
+
+                },
+
+            ]
+        })
+
+        $('#btn-New').on('click', function () {
+            baseData.action = 'C';
+            baseData.id = '0';
+            frmMaintenance.find('#caseNumber').val('');
+            frmMaintenance.find('#caseTitle').val('');
+            frmMaintenance.find('#caseDesc').val('');
+            frmMaintenance.find('#caseType').val('');
+            frmMaintenance.find('#caseLevel').val('');
+            frmMaintenance.find('#caseStatus').val('');
+            frmMaintenance.find('#caseNature').val('');
+            frmMaintenance.find('#venue').val('');
+            frmMaintenance.find('#amount').val('0.00');
+            frmMaintenance.find('#recordStatus').prop('checked', true);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Save');
+            $('#frmMaintenance')[0].reset();
+
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-update', function () {
+
+            let data = dtTable.row($(this).closest('tr')).data()
+
+            baseData.action = 'U';
+            baseData.id = data.id;
+            baseData.docNumber = data.docNumber;
+            frmMaintenance.find('#caseNumber').val(data.caseNumber);
+            frmMaintenance.find('#caseTitle').val(data.caseTitle);
+            frmMaintenance.find('#caseDesc').val(data.caseDesc);
+            frmMaintenance.find('#caseType').select2('trigger', 'select', { data: { id: data.caseType, text: data.caseTypeDesc } });
+            frmMaintenance.find('#caseLevel').select2('trigger', 'select', { data: { id: data.caseLevel, text: data.caseLevelDesc } });
+            frmMaintenance.find('#caseStatus').select2('trigger', 'select', { data: { id: data.caseStatus, text: data.caseStatusDesc } });
+            frmMaintenance.find('#caseNature').val(data.caseNature);
+            frmMaintenance.find('#venue').val(data.venue);
+            frmMaintenance.find('#amount').val(commafy(data.amount));
+            frmMaintenance.find('#recordStatus').prop('checked', data.recordStatus);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Update');
+
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-delete', function () {
+
+            let dr = dtTable.row($(this).closest('tr')).data()
+            baseData.action = 'D';
+            let data = {
+                _action: baseData.action,
+                id: dr.id,
+                docNumber: dr.docNumber,
+                caseNumber: dr.caseNumber,
+                caseTitle: dr.caseTitle,
+                caseDesc: dr.caseDesc,
+                caseType: dr.caseType,
+                caseLevel: dr.caseLevel,
+                caseStatus: dr.caseStatus,
+                caseNature: dr.caseNature,
+                venue: dr.venue,
+                amount: dr.amount,
+                recordStatus: dr.recordStatus
+            }
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    post_data(data);
+                }
+            });
+        })
+
+        $('#btn-submit').on('click', function () {
+
+            let text = (baseData.action == 'C' ? 'Do you want to save new entry.' : 'Do you want to save changes.');
+            let label = (baseData.action == 'C' ? 'Yes, save new entry.' : 'Yes, save changes.');
+
+            if ($('#frmMaintenance')[0].reportValidity()) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: text,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: label,
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        data = {
+                            _action: baseData.action,
+                            id: baseData.id,
+                            docNumber: baseData.docNumber,
+                            caseNumber: $('#caseNumber').val(),
+                            caseTitle: $('#caseTitle').val(),
+                            caseDesc: $('#caseDesc').val(),
+                            caseType: $('#caseType').val(),
+                            caseLevel: $('#caseLevel').val(),
+                            caseStatus: $('#caseStatus').val(),
+                            caseNature: $('#caseNature').val(),
+                            venue: $('#venue').val(),
+                            amount: $('#amount').val(),
+                            caseTypeDesc: $('#caseTypeDesc').val(),
+                            recordStatus: $('#recordStatus').is(':checked')
+                        }
+
+                        post_data(data);
+
+                    }
+                });
+            }
+        });
+
+        $('.select2').select2({
+            dropdownParent: $('#maintenaceModal')
+        });
+
+        getData("Library", "GET_CaseType", { intParam:1}).done(function (data) {
+
+            let obj = null;
+
+            obj = {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.caseTypeDesc,
+                        id: item.caseTypeNumber,
+                    }
+                })
+            }
+
+            $('#fcaseType').html('').select2({ data: [{}] })
+            $('#fcaseType').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Select case type',
+                allowClear: true,
+                data: obj.results
+            })
+
+
+        });
+
+
+        $('#input_Search').keyup(function () {
+
+            dtTable.search($(this).val()).draw();
+        })
+
+        $('.btn-filter').on('click', function () {
+
+            load_data();
+        })
+
+        load_data();
+
+    });
+
+    function load_data() {
+
+        getData("Document", "GET_CaseMaster", { 
+
+            strParam: $('#fcaseType').val(),
+            intParam: 0,
+            dateFr: dateFilter.selectedDates[0].toLocaleDateString(),
+            dateTo: dateFilter.selectedDates[1].toLocaleDateString()
+        
+        }).done(function (data) {
+
+            dtTable.rows().clear();
+            dtTable.rows.add(data).draw();
+
+        })
+
+    }
+
+    function post_data(data) {
+
+        postData("Document", "POST_CaseMaster", data).done(function (returnData) {
+
+            let msg = returnData[0];
+
+            if (!msg.includes("Success")) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: msg.replace("Msg: ", "")
+                });
+            }
+            else {
+
+
+                let componet = 'case';
+                let text;
+
+                if (baseData.action == 'C') {
+                    text = `New ${componet} has been added`;
+                }
+                if (baseData.action == 'U') {
+                    text = `Selected ${componet} has been updated`;
+                }
+                if (baseData.action == 'D') {
+                    text = `Selected ${componet} has been deleted`;
+                }
+
+                frmMaintenance.modal('hide');
+
+                Swal.fire({
+                    title: "Success!",
+                    text: text,
+                    icon: "success",
+                    // confirmButtonClass: "btn btn-primary w-xs mt-2",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        load_data();
+                    }
+                });
+
+
+
+            }
+
+
+
+        })
+    }
+
+</script>

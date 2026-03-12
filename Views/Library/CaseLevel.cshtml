@@ -1,0 +1,338 @@
+﻿@{
+    Layout = "_DevExtremeLayout";
+    ViewData["Title"] = "";
+    string nonceValue = Context.Items["CspNonce"].ToString();
+}
+
+<div class="row my-3">
+    <div class="col">
+
+        <div class="h-100 pt-4">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pt-2">
+
+                            <div class="row mb-2 pt-4 mb-4">
+                                <div class="col">
+                                    <h4 class="float-start my-2 mb-2">Case Level</h4>
+                                </div>
+
+                                <div class="col-2 d-flex justify-content-end">
+                                    @{
+                                        if (ViewData["sfInfo"].ToString().Substring(1, 1) != "0")
+                                        {
+                                            <button type="button" id="btn-New" class="btn btn-info align-self-start align-items-center" @(ViewData["sfInfo"].ToString().Substring(1, 1) != "0" ? "" : "disabled")>
+                                                <i class="ri-add-fill"></i> New
+                                            </button>
+                                        }
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="row horizantalScrollContainer">
+                                    <div class="col-12">
+                                        <table id="dtList" class="table table-striped align-middle w-100">
+                                            <thead>
+                                                <tr class="bg-dark-subtle">
+                                                    <th class="text-left">Case Level Number</th>
+                                                    <th class="text-left">Description</th>
+                                                    <th class="text-left" width="10%">Record Status</th>
+                                                    <th class="text-center" width="20%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Maintenace -->
+<div class="modal  fade" id="maintenaceModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+
+        <form id="frmMaintenance" autocomplete="off">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Case level entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group mb-3">
+                        <div class="col-12">
+                            <label for="caseLevelNumber" class="form-label">Case Level Number <small id="lbCode" class="fst-italic ms-2 fs-6 fw-normal text-danger">Auto create upon saving.</small></label>
+
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="caseLevelNumber" id="caseLevelNumber" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="col-3">
+                            <label for="caseLevelDesc" class="form-label">Description</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="caseLevelDesc" id="caseLevelDesc" autocomplete="off" maxlength="255" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <div class="col">
+                            <div class="form-check mb-2">
+                                <label class="form-check-label" for="recordStatus">Record Status</label>
+                                <input class="form-check-input" type="checkbox" name="recordStatus" id="recordStatus" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"> <i class="ri-close-line me-1"></i> Close</button>
+                    <button type="button" class="btn btn-success" id="btn-submit"> <i class="ri-save-line me-1"></i>Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script nonce="@nonceValue">
+
+    let sfInfo = '@ViewData["sfInfo"].ToString()';
+    let dtTable;
+    let frmMaintenance = $("#maintenaceModal");
+    let baseData = {action:'', id:''}
+
+    $(() => {
+
+        dtTable = $('#dtList').DataTable({
+            columns: [
+                { data: "caseLevelNumber" },
+                { data: "caseLevelDesc" },
+                { data: null },
+                { data: null }
+            ],
+            paging: true,
+            ordering: false,
+            info: true,
+            scrollX: false,
+            scrollY: '50vh',
+            columnDefs: [
+
+                {
+                    targets: [2],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+                        let prop = {
+                            badge: data.recordStatus ? 'bg-info' : 'bg-danger',
+                            text: data.recordStatus ? 'Active' : 'Disabled'
+                        }
+                        return `<span class="fs-10 badge text-white ${prop.badge} rounded-pill">${prop.text}</span>`;
+                    }
+
+                },
+                {
+                    targets: [3],
+                    width: '15%',
+                    className: 'text-center',
+                    render: function (data, test, row, meta) {
+
+
+                        let html = `<div>
+                                        ${sfInfo.substring(2, 3) == '1' ? `<button class="btn btn-sm btn-warning btn-icon waves-effect waves-light btn-update" title="Edit">
+                                                                                <i class="ri-edit-2-fill"></i>
+                                                                            </button>` : ``}
+
+                                        ${sfInfo.substring(3, 4) == '1' ? `<button class="btn btn-sm btn-danger btn-icon waves-effect waves-light btn-delete" title="Delete">
+                                                                                <i class="ri-delete-bin-2-fill"></i>
+                                                                            </button>` : ``}
+
+                                    </div>`;
+
+                        return html;
+
+                    }
+                }
+            ]
+        })
+
+        $('#btn-New').on('click', function () {
+            baseData.action = 'C';
+            baseData.id = '0';
+            // frmMaintenance.find('#caseLevelNumber').val("");
+            // frmMaintenance.find('#caseLevelDesc').val('');
+            // frmMaintenance.find('#recordStatus').prop('checked', true);
+            $('#frmMaintenance')[0].reset();
+
+            frmMaintenance.find("#btn-submit").html('<i class="ri-save-line me-1"></i>Save');
+            frmMaintenance.find('#lbCode').html('Auto create upon saving.');
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-update', function () {
+
+            let data = dtTable.row($(this).closest('tr')).data()
+
+            baseData.action = 'U';
+            baseData.id = data.id;
+            frmMaintenance.find('#caseLevelNumber').val(data.caseLevelNumber);
+            frmMaintenance.find('#caseLevelDesc').val(data.caseLevelDesc);
+            frmMaintenance.find('#recordStatus').prop('checked', data.recordStatus);
+            frmMaintenance.find("#btn-submit").html(' <i class="ri-save-line me-1"></i>Update');
+            frmMaintenance.find('#lbCode').html('');
+            frmMaintenance.modal('show');
+        })
+
+        $('#dtList tbody').on('click', '.btn-delete', function () {
+
+            let dr = dtTable.row($(this).closest('tr')).data()
+            baseData.action = 'D';
+            let data = {
+                _action: baseData.action,
+                id: dr.id,
+                caseLevelNumber: dr.caseLevelNumber,
+                caseLevelDesc: dr.caseLevelDesc,
+                recordStatus: dr.recordStatus
+            }
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    post_data(data);
+                }
+            });
+
+        })
+
+        $('#btn-submit').on('click', function () {
+
+            let text = (baseData.action == 'C' ? 'Do you want to save new entry.' : 'Do you want to save changes.');
+            let label = (baseData.action == 'C' ? 'Yes, save new entry.' : 'Yes, save changes.');
+
+            if ($('#frmMaintenance')[0].reportValidity()) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: text,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: label,
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        data = {
+                            _action: baseData.action,
+                            id: baseData.id,
+                            caseLevelNumber: $('#caseLevelNumber').val(),
+                            caseLevelDesc: $('#caseLevelDesc').val(),
+                            recordStatus: $('#recordStatus').is(':checked')
+                        }
+
+                        post_data(data);
+
+                    }
+                });
+            }
+        });
+
+        load_data();
+
+    });
+
+
+
+
+    function load_data(){
+
+
+        getData("Library", "GET_CaseLevel", { _action: 'A' }).done(function (data) {
+
+            dtTable.rows().clear();
+            dtTable.rows.add(data).draw();
+
+        })
+
+    }
+
+    function post_data(data) {
+
+        postData("Library", "POST_CaseLevel", data).done(function (returnData) {
+
+            let msg = returnData[0];
+
+            if (!msg.includes("Success")) {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "ERROR!",
+                    text: msg.replace("Msg: ", "")
+                });
+            }
+            else {
+
+                let componet = 'case level';
+                let text;
+
+                if (baseData.action == 'C') {
+                    text = `New ${componet} has been added`;
+                }
+                if (baseData.action == 'U') {
+                    text = `Selected ${componet} has been updated`;
+                }
+                if (baseData.action == 'D') {
+                    text = `Selected ${componet} has been deleted`;
+                }
+
+                frmMaintenance.modal('hide');
+
+                Swal.fire({
+                    title: "Success!",
+                    text: text,
+                    icon: "success",
+                    // confirmButtonClass: "btn btn-primary w-xs mt-2",
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+
+                        load_data();
+                    }
+                });
+
+
+               
+            }
+
+
+
+        })
+    }
+
+
+</script>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html id="header" lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>myNGCP | All-in-one Corporate Portal</title>
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @* MyNGCP Theme*@
+
+    @* Navbar *@
+    <script src="/js/customscript/navbar.init.js"></script>
+
+
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/DataTables/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/lib/dropzone/dropzone.css" rel="stylesheet" />
+    <link href="~/lib/Select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/Select2/css/select2-bs5.css" rel="stylesheet" />
+    <link href="~/lib/rater-js/lib/style.css" rel="stylesheet" />
+    <link href="~/lib/@@simonwep/pickr/themes/nano.min.css" rel="stylesheet" />
+    <link href="~/lib/quill/quill.snow.css" rel="stylesheet" />
+    <link href="~/css/daterangepicker.min.css" rel="stylesheet" />
+    <link href="~/lib/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+    <link href="~/css/icons.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/DataTables/js/jquery.dataTables.js"></script>
+    <script src="~/lib/DataTables/js/dataTables.bootstrap.js"></script>
+    <script src="~/lib/DataTables/js/dataTables.responsive.js"></script>
+    <script src="~/lib/DataTables/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/lib/DataTables/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/DataTables/js/dataTables.select.js"></script>
+    <script src="~/lib/DataTables/js/buttons.print.min.js"></script>
+    <script src="~/lib/DataTables/js/buttons.html5.min.js"></script>
+    <script src="~/lib/DataTables/js/sorting.date-de.js"></script>
+
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/lib/Select2/js/select2.js"></script>
+    <script src="~/lib/moment/moment.js"></script>
+
+    <script src="~/lib/simplebar/simplebar.min.js"></script>
+    <script src="~/lib/node-waves/waves.min.js"></script>
+    <script src="~/lib/feather-icons/feather.min.js"></script>
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/lib/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="~/lib/jsvectormap/maps/world-merc.js"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
+    <script src="~/lib/cleave.js/cleave.min.js"></script>
+    <script src="~/lib/prismjs/prism.js"></script>
+    <script src="~/lib/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/lib/flatpickr/flatpickr.min.js"></script>
+    <script src="~/lib/apexcharts/apexcharts.min.js"></script>
+    <script src="~/lib/dropzone/dropzone-min.js"></script>
+    <script src="~/lib/rater-js/index.js"></script>
+    <script src="~/lib/quill/quill.min.js"></script>
+    <script src="~/lib/@@simonwep/pickr/pickr.min.js"></script>
+    <script src="~/lib/choices.js/public/assets/scripts/choices.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="auth-page-wrapper pt-5">
+
+        <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
+            <div class="bg-overlay"></div>
+
+            <div class="shape">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
+                    <path d="M 0,36 C 144,53.6 432,123.2 720,124 C 1008,124.8 1296,56.8 1440,40L1440 140L0 140z"></path>
+                </svg>
+            </div>
+            <canvas class="particles-js-canvas-el" width="481" height="309" style="width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <div class="auth-page-content">
+            <div class="container">
+
+                @RenderBody()
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+    <!--preloader-->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" output="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="customizer-setting d-none d-md-block">
+        <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
+            <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
+        </div>
+    </div>
+    @await Html.PartialAsync("_Settings")
+
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        let BaseURL = "@Url.Action("", "")";
+        const getData = (controller, method, data) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `GET`,
+                data: data
+            })
+        }
+
+        const postData = (controller, method, data) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `POST`,
+                data: data
+            })
+        }
+
+        const postFileData = (controller, method, data) => {
+            return $.ajax({
+                url: `${BaseURL}${controller}/${method}`,
+                method: `POST`,
+                data: data,
+                processData: false,
+                contentType: false
+            })
+        }
+    </script>
+    <!-- end main content-->
+</body>
+
+
+
+</html>
